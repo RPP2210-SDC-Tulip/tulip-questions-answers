@@ -4,7 +4,8 @@
   "description": "microservice for handling api calls related to the questions & answers widget in project Atelier",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "server": "nodemon server"
   },
   "repository": {
     "type": "git",
