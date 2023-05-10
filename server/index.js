@@ -5,8 +5,8 @@ const answersRouter = require('./answers.js');
 
 const PORT = 3000;
 
-app.use('/questions', questionsRouter);
-app.use('/answers', answersRouter);
+app.use('/qa', questionsRouter);
+app.use('/qa/questions', answersRouter);
 
 app.listen(PORT, () => {
 
