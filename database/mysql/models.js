@@ -85,5 +85,6 @@ var postAnswer = (req, res) => {
 exports.getQuestions = getQuestions;
 exports.getAnswers = getAnswers;
 exports.postQuestion = postQuestion;
+exports.postAnswer = postAnswer;
 exports.markQuestionHelpful = markQuestionHelpful;
 exports.reportQuestion = reportQuestion;
