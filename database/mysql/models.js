@@ -22,14 +22,17 @@ var getQuestions = (req, res) => {
 
 //post a new question
 var postQuestion = (req, res) => {
-  var created_at = Date.now();
-  req.query.question_date = created_at;
+  req.query.question_date = Date.now();
   req.query.question_reported = false;
   req.query.question_helpfulness = 0;
-  req.query.question_id = 0;
   console.log('model level req.query: ', req.query);
-  var query = 'construct insert query here';
-  res.send('post req for new question made')
+  var query = `INSERT INTO questions (product_id, question_body, question_date, asker_name, asker_email, question_reported, question_helpfulness) VALUES (${req.query.product_id}, \'${req.query.body}\', \'${req.query.question_date}\', \'${req.query.name}\', \'${req.query.email}\', false, 0)`;
+  console.log('the query: ', query);
+  db.query(query, function (err, result) {
+    if (err) throw err;
+    console.log('RESULT: ', result);
+    res.send(result).status(200);
+  });
 };
 
 //mark a question helpful
