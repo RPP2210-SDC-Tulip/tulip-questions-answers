@@ -50,8 +50,13 @@ var markQuestionHelpful = (req, res) => {
 //report a question
 var reportQuestion = (req, res) => {
   console.log('model level req.params: ', req.params);
-  var query = 'construct update query here';
-  res.send('put req for reporting a question made').status(204);
+  var query = `UPDATE questions SET question_reported = true WHERE question_id = ${req.params.question_id};`;
+  console.log('the query: ', query);
+  db.query(query, function (err, result) {
+    if (err) throw err;
+    console.log('RESULT: ', result);
+    res.send(result).status(204);
+  });
 };
 
 
