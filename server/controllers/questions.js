@@ -12,5 +12,18 @@ var postQuestion = (req, res) => {
   Questions.postQuestion(req, res);
 }
 
+var markQuestionHelpful = (req, res) => {
+  console.log('controller level req.params: ', req.params);
+  Questions.markQuestionHelpful(req, res);
+}
+
+var reportQuestion = (req, res) => {
+  console.log('controller level req.params: ', req.params);
+  Questions.reportQuestion(req, res);
+
+};
+
 exports.getQuestions = getQuestions;
 exports.postQuestion = postQuestion;
+exports.markQuestionHelpful = markQuestionHelpful;
+exports.reportQuestion = reportQuestion;

@@ -33,8 +33,19 @@ var postQuestion = (req, res) => {
 }
 
 //mark a question helpful
+var markQuestionHelpful = (req, res) => {
+  console.log('model level req.params: ', req.params);
+  var query = 'construct update query here';
+  res.send('put req for marking question as helpful made');
+};
 
 //report a question
+var reportQuestion = (req, res) => {
+  console.log('model level req.params: ', req.params);
+  var query = 'construct update query here';
+  res.send('put req for reporting a question made');
+};
+
 
 //get an answer/answers
 var getAnswers = (req, res) => {
@@ -74,3 +85,5 @@ var postAnswer = (req, res) => {
 exports.getQuestions = getQuestions;
 exports.getAnswers = getAnswers;
 exports.postQuestion = postQuestion;
+exports.markQuestionHelpful = markQuestionHelpful;
+exports.reportQuestion = reportQuestion;
