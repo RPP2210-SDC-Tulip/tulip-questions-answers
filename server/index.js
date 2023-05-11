@@ -1,12 +1,10 @@
 const express = require('express');
 const app = express();
-const questionsRouter = require('./questions.js');
-const answersRouter = require('./answers.js');
+const QARouter = require('./qa-router.js');
 
 const PORT = 3000;
 
-app.use('/qa', questionsRouter);
-app.use('/qa/questions', answersRouter);
+app.use('/qa', QARouter);
 
 app.listen(PORT, () => {
 

@@ -3,7 +3,7 @@ USE questionanswers;
 /*create table for question*/
 CREATE TABLE questions (
   /* Describe your table here.*/
-  question_id INTEGER PRIMARY KEY,
+  question_id INTEGER PRIMARY KEY AUTO_INCREMENT,
   product_id INTEGER NOT NULL,
   question_body TEXT NOT NULL,
   question_date VARCHAR(55) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE questions (
 /*create table for answer*/
 CREATE TABLE answers (
   /* Describe your table here.*/
-  answer_id INTEGER PRIMARY KEY,
+  answer_id INTEGER PRIMARY KEY AUTO_INCREMENT,
   question_id_fk INTEGER NOT NULL,
   answer_body TEXT NOT NULL,
   answer_date VARCHAR(55) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE answers (
 /*create table for photo*/
 CREATE TABLE photos (
   /* Describe your table here.*/
-  photo_id INTEGER PRIMARY KEY,
+  photo_id INTEGER PRIMARY KEY AUTO_INCREMENT,
   answer_id_fk INTEGER NOT NULL,
   photo_url TEXT NOT NULL,
   FOREIGN KEY (answer_id_fk) REFERENCES answers(answer_id)
