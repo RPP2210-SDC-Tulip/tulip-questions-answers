@@ -18,7 +18,7 @@ var getQuestions = (req, res) => {
     console.log('RESULT: ', result);
     res.send(result).status(200);
   });
-}
+};
 
 //post a new question
 var postQuestion = (req, res) => {
@@ -30,20 +30,20 @@ var postQuestion = (req, res) => {
   console.log('model level req.query: ', req.query);
   var query = 'construct insert query here';
   res.send('post req for new question made')
-}
+};
 
 //mark a question helpful
 var markQuestionHelpful = (req, res) => {
   console.log('model level req.params: ', req.params);
   var query = 'construct update query here';
-  res.send('put req for marking question as helpful made');
+  res.send('put req for marking question as helpful made').status(204);
 };
 
 //report a question
 var reportQuestion = (req, res) => {
   console.log('model level req.params: ', req.params);
   var query = 'construct update query here';
-  res.send('put req for reporting a question made');
+  res.send('put req for reporting a question made').status(204);
 };
 
 
@@ -64,7 +64,7 @@ var getAnswers = (req, res) => {
     console.log('RESULT: ', result);
     res.send(result).status(200);
   });
-}
+};
 
 //post new answer
 var postAnswer = (req, res) => {
@@ -76,15 +76,28 @@ var postAnswer = (req, res) => {
   console.log('model level req.query: ', req.query);
   var query = 'construct insert query here';
   res.send('post req for new answer made')
-}
+};
 
 //mark answer helpful
+var markAnswerHelpful = (req, res) => {
+  console.log('model level req.params: ', req.params);
+  var query = 'construct update query here';
+  res.send('put req for marking answer as helpful made').status(204);
+};
 
 //report an answer
+var reportAnswer = (req, res) => {
+  console.log('model level req.params: ', req.params);
+  var query = 'construct update query here';
+  res.send('put req for reporting an answer made').status(204);
+};
 
 exports.getQuestions = getQuestions;
-exports.getAnswers = getAnswers;
 exports.postQuestion = postQuestion;
-exports.postAnswer = postAnswer;
 exports.markQuestionHelpful = markQuestionHelpful;
 exports.reportQuestion = reportQuestion;
+
+exports.getAnswers = getAnswers;
+exports.postAnswer = postAnswer;
+exports.markAnswerHelpful = markAnswerHelpful;
+exports.reportAnswer = reportAnswer;

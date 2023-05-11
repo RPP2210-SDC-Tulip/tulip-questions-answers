@@ -33,9 +33,19 @@ var postAnswer = (req, res) => {
   QAModel.postAnswer(req, res);
 };
 
+var markAnswerHelpful = (req, res) => {
+  QAModel.markAnswerHelpful(req, res);
+};
+
+var reportAnswer = (req, res) => {
+  QAModel.reportAnswer(req, res);
+};
+
 exports.getQuestions = getQuestions;
 exports.postQuestion = postQuestion;
 exports.markQuestionHelpful = markQuestionHelpful;
 exports.reportQuestion = reportQuestion;
 exports.getAnswers = getAnswers;
 exports.postAnswer = postAnswer;
+exports.markAnswerHelpful = markAnswerHelpful;
+exports.reportAnswer = reportAnswer;
