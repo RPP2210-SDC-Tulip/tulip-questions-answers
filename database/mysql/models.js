@@ -7,7 +7,7 @@ var getQuestions = (req, res) => {
   console.log('model level req.query: ', req.query.product_id);
   var query;
   if (req.query.product_id === undefined) {
-    query = 'SELECT * FROM questions LIMIT 5';
+    query = 'SELECT * FROM answers, questions WHERE answers.question_id_fk = questions.question_id AND questions.product_id = 1';
     // console.log('no product id given');
   } else {
     //query = `SELECT * FROM questions WHERE product_id = ${req.query.product_id} LIMIT 5`;
@@ -18,101 +18,62 @@ var getQuestions = (req, res) => {
     if (err) throw err;
     //console.log('RESULT: ', result);
     var obj = {};
-    obj.product_id = result[0].product_id.toString();
-    // result.map((question) => {
-    //   // if (results.question.question_id !== null) {
-    //   //   return null;
-    //   // } else {
-    //   delete question.product_id;
-    //   if (question.question_reported === 0) {
-    //     question.question_reported = false;
-    //   } else {
-    //     question.question_reported = true;
-    //   }
-    //   //console.log(results);
-    //   return question;
-    //   // }
-    // });
+    obj.product_id = result[0].product_id.toString(); //add product id field
+
     var answers = {};
     var questions = {};
     for (var i = 0; i < result.length; i++) {
       var answer_id = result[i].answer_id;
       var question_id = result[i].question_id;
       //console.log(question.answer_id);
+      //separate individual answers from questions, edit to fit expected shape
       answers[answer_id] = {};
       answers[answer_id].id = answer_id;
       answers[answer_id].body = result[i].answer_body;
-      answers[answer_id].date = result[i].answer_date;
+      answers[answer_id].date = new Date(parseInt(result[i].answer_date));
       answers[answer_id].answerer_name = result[i].answerer_name;
       answers[answer_id].helpfulness = result[i].answer_helpfulness;
       answers[answer_id].photos = [];
       answers[answer_id].question_id = result[i].question_id;
 
+      //separate individual questions, skipping repeated questions, edit to fit expected shape
       if (questions[question_id] === undefined) {
         questions[question_id] = {};
         questions[question_id].question_id = question_id;
         questions[question_id].question_body = result[i].question_body;
-        questions[question_id].question_date = result[i].question_date;
+        questions[question_id].question_date = new Date(parseInt(result[i].question_date));
         questions[question_id].asker_name = result[i].asker_name;
         questions[question_id].question_helpfulness = result[i].question_helpfulness;
-        questions[question_id].question_reported = result[i].question_reported;
-        questions[question_id].answers = {};
+        if (result[i].question_reported === 0) {
+          questions[question_id].question_reported = false;
+        } else {
+          questions[question_id].question_reported = true;
+        }
+        questions[question_id].answers = {}; //create empty field where answers object will go
       }
     }
 
+    // insert answer objects back into questions object
     for (key in answers) {
       var question_id = answers[key].question_id;
       questions[answers[key].question_id].answers[key] = answers[key];
-      delete answers[key].question_id;
-      console.log('HERE: ', questions[question_id].answers);
+      delete answers[key].question_id; //edit to fit expected shape
+      //console.log('HERE: ', questions[question_id].answers);
     }
 
     var results = [];
-
+    //put questions in arr to fit expected shape
     for (key in questions) {
-
       results.push(questions[key]);
-
     }
 
-    // console.log('answers obj: ', answers);
-    // console.log('questions obj: ', questions);
-    console.log('result arr: ', results);
+    //console.log('result arr: ', results);
     obj.results = results;
-
-
-
     res.send(obj).status(200);
   });
 
 
 };
-
-
-/**
- *
- * "product_id": "5",
-  "results": [{
-        "question_id": 37,
-        "question_body": "Why is this product cheaper here than other sites?",
-        "question_date": "2018-10-18T00:00:00.000Z",
-        "asker_name": "williamsmith",
-        "question_helpfulness": 4,
-        "reported": false,
-        "answers": {
-          68: {
-            "id": 68,
-            "body": "We are selling it here without any markup from the middleman!",
-            "date": "2018-08-18T00:00:00.000Z",
-            "answerer_name": "Seller",
-            "helpfulness": 4,
-            "photos": []
-            // ...
-          }
-        }
-      }
- */
-
 
 //post a new question
 var postQuestion = (req, res) => {
