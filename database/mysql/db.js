@@ -1,10 +1,12 @@
 var mysql = require('mysql2');
+const auth = require('../../config.js');
 
 var db = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'root',
-  password: '',
-  database: 'questionanswers'
+  host: auth.HOST,
+  user: auth.USER,
+  password: auth.PASSWORD,
+  database: auth.DB,
+  port: auth.PORT
 });
 
 db.connect(function (err) {
