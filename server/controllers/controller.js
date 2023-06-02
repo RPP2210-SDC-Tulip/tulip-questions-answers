@@ -1,5 +1,6 @@
 //where callbacks with req,res will be written. Import model methods
 const QAModel = require('../../database/mysql/models.js');
+const auth = require('../../config.js');
 
 var getQuestions = (req, res) => {
   console.log('controller level req.params: ', req.params);
@@ -41,6 +42,10 @@ var reportAnswer = (req, res) => {
   QAModel.reportAnswer(req, res);
 };
 
+var loaderioVerification = (req, res) => {
+  res.sendFile(auth.LOADERIOPATHFILE);
+}
+
 exports.getQuestions = getQuestions;
 exports.postQuestion = postQuestion;
 exports.markQuestionHelpful = markQuestionHelpful;
@@ -49,3 +54,4 @@ exports.getAnswers = getAnswers;
 exports.postAnswer = postAnswer;
 exports.markAnswerHelpful = markAnswerHelpful;
 exports.reportAnswer = reportAnswer;
+exports.loaderioVerification = loaderioVerification;
