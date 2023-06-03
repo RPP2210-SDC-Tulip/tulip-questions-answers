@@ -43,7 +43,7 @@ var reportAnswer = (req, res) => {
 };
 
 var loaderioVerification = (req, res) => {
-  res.sendFile(auth.LOADERIOPATHFILE);
+  res.send(auth.LOADERIO);
 }
 
 exports.getQuestions = getQuestions;
