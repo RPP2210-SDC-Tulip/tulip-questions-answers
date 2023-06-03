@@ -16,59 +16,64 @@ var getQuestions = (req, res) => {
   }
   db.query(query, function (err, result) {
     if (err) throw err;
-    //console.log('RESULT: ', result);
+    console.log('RESULT: ', result);
     var obj = {};
-    obj.product_id = result[0].product_id.toString(); //add product id field
+    if (result.length !== 0) {
 
-    var answers = {};
-    var questions = {};
-    for (var i = 0; i < result.length; i++) {
-      var answer_id = result[i].answer_id;
-      var question_id = result[i].question_id;
-      //console.log(question.answer_id);
-      //separate individual answers from questions, edit to fit expected shape
-      answers[answer_id] = {};
-      answers[answer_id].id = answer_id;
-      answers[answer_id].body = result[i].answer_body;
-      answers[answer_id].date = new Date(parseInt(result[i].answer_date));
-      answers[answer_id].answerer_name = result[i].answerer_name;
-      answers[answer_id].helpfulness = result[i].answer_helpfulness;
-      answers[answer_id].photos = [];
-      answers[answer_id].question_id = result[i].question_id;
+      obj.product_id = result[0].product_id.toString(); //add product id field
 
-      //separate individual questions, skipping repeated questions, edit to fit expected shape
-      if (questions[question_id] === undefined) {
-        questions[question_id] = {};
-        questions[question_id].question_id = question_id;
-        questions[question_id].question_body = result[i].question_body;
-        questions[question_id].question_date = new Date(parseInt(result[i].question_date));
-        questions[question_id].asker_name = result[i].asker_name;
-        questions[question_id].question_helpfulness = result[i].question_helpfulness;
-        if (result[i].question_reported === 0) {
-          questions[question_id].question_reported = false;
-        } else {
-          questions[question_id].question_reported = true;
+      var answers = {};
+      var questions = {};
+      for (var i = 0; i < result.length; i++) {
+        var answer_id = result[i].answer_id;
+        var question_id = result[i].question_id;
+        //console.log(question.answer_id);
+        //separate individual answers from questions, edit to fit expected shape
+        answers[answer_id] = {};
+        answers[answer_id].id = answer_id;
+        answers[answer_id].body = result[i].answer_body;
+        answers[answer_id].date = new Date(parseInt(result[i].answer_date));
+        answers[answer_id].answerer_name = result[i].answerer_name;
+        answers[answer_id].helpfulness = result[i].answer_helpfulness;
+        answers[answer_id].photos = [];
+        answers[answer_id].question_id = result[i].question_id;
+
+        //separate individual questions, skipping repeated questions, edit to fit expected shape
+        if (questions[question_id] === undefined) {
+          questions[question_id] = {};
+          questions[question_id].question_id = question_id;
+          questions[question_id].question_body = result[i].question_body;
+          questions[question_id].question_date = new Date(parseInt(result[i].question_date));
+          questions[question_id].asker_name = result[i].asker_name;
+          questions[question_id].question_helpfulness = result[i].question_helpfulness;
+          if (result[i].question_reported === 0) {
+            questions[question_id].question_reported = false;
+          } else {
+            questions[question_id].question_reported = true;
+          }
+          questions[question_id].answers = {}; //create empty field where answers object will go
         }
-        questions[question_id].answers = {}; //create empty field where answers object will go
       }
+
+      // insert answer objects back into questions object
+      for (key in answers) {
+        var question_id = answers[key].question_id;
+        questions[answers[key].question_id].answers[key] = answers[key];
+        delete answers[key].question_id; //edit to fit expected shape
+        //console.log('HERE: ', questions[question_id].answers);
+      }
+
+      var results = [];
+      //put questions in arr to fit expected shape
+      for (key in questions) {
+        results.push(questions[key]);
+      }
+
+      //console.log('result arr: ', results);
+      obj.results = results;
+
     }
 
-    // insert answer objects back into questions object
-    for (key in answers) {
-      var question_id = answers[key].question_id;
-      questions[answers[key].question_id].answers[key] = answers[key];
-      delete answers[key].question_id; //edit to fit expected shape
-      //console.log('HERE: ', questions[question_id].answers);
-    }
-
-    var results = [];
-    //put questions in arr to fit expected shape
-    for (key in questions) {
-      results.push(questions[key]);
-    }
-
-    //console.log('result arr: ', results);
-    obj.results = results;
     res.send(obj).status(200);
   });
 
