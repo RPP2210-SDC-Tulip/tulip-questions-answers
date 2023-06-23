@@ -4,7 +4,7 @@ const db = require('./db.js');
 //get a question/questions
 var getQuestions = (req, res) => {
   //console.log('model level req.params: ', req.params.product_id);
-  console.log('model level req.query: ', req.query.product_id);
+  //console.log('model level req.query: ', req.query.product_id);
   var query;
   if (req.query.product_id === undefined) {
     query = 'SELECT * FROM answers, questions WHERE answers.question_id_fk = questions.question_id AND questions.product_id = 1';
@@ -16,7 +16,7 @@ var getQuestions = (req, res) => {
   }
   db.query(query, function (err, result) {
     if (err) throw err;
-    console.log('RESULT: ', result);
+    //console.log('RESULT: ', result);
     var obj = {};
     if (result.length !== 0) {
 

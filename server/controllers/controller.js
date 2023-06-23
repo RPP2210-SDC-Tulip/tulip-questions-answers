@@ -3,23 +3,23 @@ const QAModel = require('../../database/mysql/models.js');
 const auth = require('../../config.js');
 
 var getQuestions = (req, res) => {
-  console.log('controller level req.params: ', req.params);
-  console.log('controller level req.query: ', req.query);
+  // console.log('controller level req.params: ', req.params);
+  // console.log('controller level req.query: ', req.query);
   QAModel.getQuestions(req, res);
 };
 
 var postQuestion = (req, res) => {
-  console.log('controller level req.query: ', req.query);
+  //console.log('controller level req.query: ', req.query);
   QAModel.postQuestion(req, res);
 }
 
 var markQuestionHelpful = (req, res) => {
-  console.log('controller level req.params: ', req.params);
+  //console.log('controller level req.params: ', req.params);
   QAModel.markQuestionHelpful(req, res);
 }
 
 var reportQuestion = (req, res) => {
-  console.log('controller level req.params: ', req.params);
+  //console.log('controller level req.params: ', req.params);
   QAModel.reportQuestion(req, res);
 
 };
